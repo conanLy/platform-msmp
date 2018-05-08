@@ -1,0 +1,57 @@
+spring:
+  application:
+    name: platform-eureka
+  datasource:
+    url: jdbc:mysql://localhost:3306/zuul?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    tomcat:
+      validation-query: SELECT 1
+      test-on-borrow: true
+      test-while-idle: true
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 200
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+    timeout: 5000
+
+server:
+  port: 8761
+
+eureka:
+  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+
+
+application-server:
+  ribbon:
+    OkToRetryOnAllOperations: true
+    ConnectTimeot: 1000
+    ReadTimeout: 2000
+    MaxAutoRetriesNextServer: 2
+    MaxAutoRetries: 1
+
+my:
+  async:
+    thread:
+      pool:
+        corePoolSize: 5
+        maxPoolSize: 50
+        keepAliveSeconds: 60
+        queueCapacity: 50
+feign:
+  hystrix:
+    enabled: true

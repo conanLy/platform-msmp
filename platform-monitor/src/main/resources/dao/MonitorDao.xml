@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.msmp.platform.monitor.dao.MonitorDao">
+
+    <insert id="insterBatchRegisterInstance" parameterType="java.util.List">
+        INSERT INTO service_info(ip_addr,port,
+        host_name,vip_address,status,update_time,service_id)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+        (
+            #{item.ipAddr},#{item.port},#{item.hostName},
+            #{item.vipAddress},#{item.status},#{item.updateTime},{item.appName}
+        )
+        </foreach>
+    </insert>
+
+    <insert id="insterRegisterInstance" parameterType="com.msmp.platform.common.vo.ServiceInstance">
+        INSERT INTO service_info(ip_addr,port,
+        host_name,vip_address,status,update_time,service_id)
+        VALUES
+            (
+                #{ipAddr},#{port},#{hostName},
+                #{vipAddress},#{status},#{updateTime},#{appName}
+            )
+    </insert>
+    
+    <select id="selectReginsterInstanceCount" parameterType="com.msmp.platform.common.vo.ServiceInstance" resultType="int">
+      <![CDATA[
+          SELECT count(1) FROM service_info WHERE host_name = #{hostName} AND port = #{port}
+        ]]>
+    </select>
+
+    <update id="updateRegisterInstance" parameterType="com.msmp.platform.common.vo.ServiceInstance">
+        <![CDATA[ UPDATE service_info  set id = id ]]>
+        <if test="appName != null">
+            <![CDATA[,service_id = #{appName} ]]>
+        </if>
+        <if test="ipAddr != null">
+            <![CDATA[,ip_addr = #{ipAddr} ]]>
+        </if>
+        <if test="vipAddress != null">
+            <![CDATA[,vip_address = #{vipAddress} ]]>
+        </if>
+        <if test="status != null">
+            <![CDATA[,status = #{status} ]]>
+        </if>
+        <if test="updateTime != null">
+            <![CDATA[,update_time = #{updateTime} ]]>
+        </if>
+        <![CDATA[ WHERE host_name = #{hostName} AND port = #{port}]]>
+    </update>
+
+</mapper>
+

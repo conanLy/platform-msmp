@@ -1,0 +1,77 @@
+server:
+  port: 9200
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.hostname:localhost}:${eureka.port:8761}/eureka/
+    healthcheck:
+      enabled: true
+feign:
+  httpclient:
+    enabled: false
+  hystrix:
+    enabled: false
+
+spring:
+  application:
+      name: platform-gateway
+  datasource:
+    url: jdbc:mysql://localhost:3306/zuul?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    tomcat:
+      validation-query: SELECT 1
+      test-on-borrow: true
+      test-while-idle: true
+      driver-class-name: com.mysql.jdbc.Driver
+      max-active: 200
+      max-idle: 8
+      min-idle: 8
+      initial-size: 10
+  redis:
+    host: 127.0.0.1
+#    host: 10.10.126.54
+    port: 6379
+    password:
+    pool:
+      max-idle: 8
+      min-idle: 0
+      max-active: 8
+      max-wait: -1
+    timeout: 5000
+
+
+############redis中组件管理信息###############
+##组件开关##
+plug.enable.name: plug-enable
+##限流组件在DB中的唯一标识
+flow.plug.key: flow-plug
+##限流组件开关##
+flow.plug.enable.name: flow-plug-enable
+##限流组件详细信息##
+flow.plug.info.name: flow-plug-info
+
+##ip过滤组件在DB中的唯一标识
+ip.plug.key: ip-plug
+##ip过滤组件开关##
+ip.plug.enable.name: ip-plug-enable
+##ip过滤组件详细信息##
+ip.plug.info.name: ip-plug-info
+
+
+zuul:
+  routes:
+    zuul-local:
+      path: /zuul-local/**
+      url:  forward:/local
+
+
+
+
+
+
+
+
+

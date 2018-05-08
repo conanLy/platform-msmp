@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.msmp.platform.gateway.dao.IRouteDao">
+
+  <!--<resultMap id="BaseResultMap" type="com.msmp.platform.gateway.entity.ZuulRouteEntity">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="routeId" jdbcType="VARCHAR" property="routeId" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="serviceId" jdbcType="VARCHAR" property="serviceId" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="enable" jdbcType="TINYINT" property="enable" />
+    <result column="apiName" jdbcType="VARCHAR" property="apiName" />
+  </resultMap>-->
+
+  <select id="selectRoute" resultType="java.util.Map">
+    <![CDATA[
+      SELECT
+        id,
+        route_id routeId,
+        path,
+        service_id serviceId,
+        url,
+        enable,
+        service_name apiName
+      FROM
+        api_gateway_info
+      WHERE enable = 1
+    ]]>
+  </select>
+
+</mapper>
